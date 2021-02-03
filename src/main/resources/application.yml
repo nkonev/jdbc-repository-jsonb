@@ -1,0 +1,6 @@
+spring.datasource:
+  # https://jdbc.postgresql.org/documentation/head/connect.html#connection-parameters
+  url: jdbc:postgresql://localhost:5432/jdbc?connectTimeout=10&socketTimeout=40
+  username: jdbc
+  password: "jdbcPazZw0rd"
+  driverClassName: org.postgresql.Driver
