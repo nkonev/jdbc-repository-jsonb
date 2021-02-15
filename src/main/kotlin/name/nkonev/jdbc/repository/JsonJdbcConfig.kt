@@ -1,13 +1,12 @@
 package name.nkonev.jdbc.repository
 
-import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.springframework.core.convert.converter.Converter
-import org.springframework.data.convert.ReadingConverter
-import org.springframework.data.convert.WritingConverter
 import org.postgresql.util.PGobject
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.core.convert.converter.Converter
+import org.springframework.data.convert.ReadingConverter
+import org.springframework.data.convert.WritingConverter
 import org.springframework.data.jdbc.core.convert.JdbcCustomConversions
 import org.springframework.data.jdbc.repository.config.AbstractJdbcConfiguration
 
@@ -36,12 +35,12 @@ open class AbstractJsonWritingConverter<T> (
 }
 
 open class AbstractJsonReadingConverter<T>(
-        private val objectMapper: ObjectMapper
+        private val objectMapper: ObjectMapper,
+        private val valueType: Class<T>
 ) : Converter<PGobject, T> {
-
     override fun convert(pgObject: PGobject): T {
         val source = pgObject.value
-        return objectMapper.readValue(source, object : TypeReference<T>(){})
+        return objectMapper.readValue(source, valueType)
     }
 }
 
@@ -49,10 +48,10 @@ open class AbstractJsonReadingConverter<T>(
 class PersonDataWritingConverter(objectMapper: ObjectMapper) : AbstractJsonWritingConverter<PersonData>(objectMapper)
 
 @ReadingConverter
-class PersonDataReadingConverter(objectMapper: ObjectMapper) : AbstractJsonReadingConverter<PersonData>(objectMapper)
+class PersonDataReadingConverter(objectMapper: ObjectMapper) : AbstractJsonReadingConverter<PersonData>(objectMapper, PersonData::class.java)
 
 @WritingConverter
 class SessionDataWritingConverter(objectMapper: ObjectMapper) : AbstractJsonWritingConverter<SessionData>(objectMapper)
 
 @ReadingConverter
-class SessionDataReadingConverter(objectMapper: ObjectMapper) : AbstractJsonReadingConverter<SessionData>(objectMapper)
+class SessionDataReadingConverter(objectMapper: ObjectMapper) : AbstractJsonReadingConverter<SessionData>(objectMapper, SessionData::class.java)
