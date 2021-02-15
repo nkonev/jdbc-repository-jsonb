@@ -13,7 +13,6 @@ import org.springframework.data.jdbc.repository.config.AbstractJdbcConfiguration
 @Configuration
 class JsonJdbcConfig(private val objectMapper: ObjectMapper) : AbstractJdbcConfiguration() {
 
-    @Bean
     override fun jdbcCustomConversions(): JdbcCustomConversions {
         return JdbcCustomConversions(listOf(
                 PersonDataWritingConverter(objectMapper), PersonDataReadingConverter(objectMapper),
