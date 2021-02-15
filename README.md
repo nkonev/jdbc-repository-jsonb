@@ -1,9 +1,15 @@
-# Getting Started
+# Reproduction
+
+1\.
 ```
-curl -i 'http://localhost:8080/user'
-curl -i -X POST -H "Content-Type: application/json" 'http://localhost:8080/user' -d '{"name": "name1"}'
-docker-compose exec postgresql psql -U jdbc
-select * from customers;
-curl -i -X POST -H "Content-Type: application/json" 'http://localhost:8080/user' -d '{"name": "name10", "data": {"age": 86}}'
+docker-compose up -d
 ```
 
+2\. Launch Application.kt
+
+
+# Play with data
+```
+curl -i -X POST -H "Content-Type: application/json" 'http://localhost:8080/user' -d '{"name": "name10", "data": {"age": 86}}'
+curl -i 'http://localhost:8080/user'
+```
