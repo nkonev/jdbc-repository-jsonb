@@ -1,1 +1,1 @@
-rootProject.name = "jdbc.repository"
+rootProject.name = "jdbc-repository-jsonb"
