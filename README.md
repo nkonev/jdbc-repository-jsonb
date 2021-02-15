@@ -1,4 +1,4 @@
-# Reproduction
+# Usage
 
 1\.
 ```
@@ -11,7 +11,7 @@ curl -i -X POST -H "Content-Type: application/json" 'http://localhost:8080/user'
 curl -i 'http://localhost:8080/user'
 ```
 
-# Play with data
+3\.
 ```
 docker-compose exec postgresql psql -U jdbc
 select * from customers;
