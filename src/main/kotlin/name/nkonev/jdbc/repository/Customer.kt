@@ -8,10 +8,16 @@ data class Customer(
     @Id
     var id: Long? = null,
     var name: String = "",
-    var data: CustomerData = CustomerData()
+    var personData: PersonData = PersonData(),
+    var sessionData: SessionData = SessionData()
 )
 
-data class CustomerData(
+data class PersonData(
     var age: Int = 0,
     var petName: String = ""
+)
+
+data class SessionData(
+    var token: String = "",
+    var ttl: Long = 0
 )
