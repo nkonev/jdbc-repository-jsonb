@@ -1,55 +1,32 @@
 package name.nkonev.jdbc.repository
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.postgresql.util.PGobject
 import org.springframework.context.annotation.Configuration
-import org.springframework.core.convert.converter.Converter
 import org.springframework.data.convert.ReadingConverter
 import org.springframework.data.convert.WritingConverter
-import org.springframework.data.jdbc.core.convert.JdbcCustomConversions
 import org.springframework.data.jdbc.repository.config.AbstractJdbcConfiguration
+import org.springframework.data.relational.core.dialect.AbstractPostgresJsonReadingConverter
+import org.springframework.data.relational.core.dialect.AbstractPostgresJsonWritingConverter
 
 @Configuration
 class JsonJdbcConfig(private val objectMapper: ObjectMapper) : AbstractJdbcConfiguration() {
 
-    override fun jdbcCustomConversions(): JdbcCustomConversions {
-        return JdbcCustomConversions(listOf(
+    override fun userConverters(): List<*> {
+        return mutableListOf(
                 PersonDataWritingConverter(objectMapper), PersonDataReadingConverter(objectMapper),
                 SessionDataWritingConverter(objectMapper), SessionDataReadingConverter(objectMapper)
-        ))
-    }
-}
-
-
-open class AbstractJsonWritingConverter<T> (
-        private val objectMapper: ObjectMapper
-) : Converter<T, PGobject> {
-    override fun convert(source: T): PGobject? {
-        val jsonObject = PGobject()
-        jsonObject.type = "json"
-        jsonObject.value = objectMapper.writeValueAsString(source)
-        return jsonObject
-    }
-}
-
-open class AbstractJsonReadingConverter<T>(
-        private val objectMapper: ObjectMapper,
-        private val valueType: Class<T>
-) : Converter<PGobject, T> {
-    override fun convert(pgObject: PGobject): T {
-        val source = pgObject.value
-        return objectMapper.readValue(source, valueType)
+        )
     }
 }
 
 @WritingConverter
-class PersonDataWritingConverter(objectMapper: ObjectMapper) : AbstractJsonWritingConverter<PersonData>(objectMapper)
+class PersonDataWritingConverter(objectMapper: ObjectMapper) : AbstractPostgresJsonWritingConverter<PersonData>(objectMapper, true)
 
 @ReadingConverter
-class PersonDataReadingConverter(objectMapper: ObjectMapper) : AbstractJsonReadingConverter<PersonData>(objectMapper, PersonData::class.java)
+class PersonDataReadingConverter(objectMapper: ObjectMapper) : AbstractPostgresJsonReadingConverter<PersonData>(objectMapper, PersonData::class.java)
 
 @WritingConverter
-class SessionDataWritingConverter(objectMapper: ObjectMapper) : AbstractJsonWritingConverter<SessionData>(objectMapper)
+class SessionDataWritingConverter(objectMapper: ObjectMapper) : AbstractPostgresJsonWritingConverter<SessionData>(objectMapper, true)
 
 @ReadingConverter
-class SessionDataReadingConverter(objectMapper: ObjectMapper) : AbstractJsonReadingConverter<SessionData>(objectMapper, SessionData::class.java)
+class SessionDataReadingConverter(objectMapper: ObjectMapper) : AbstractPostgresJsonReadingConverter<SessionData>(objectMapper, SessionData::class.java)

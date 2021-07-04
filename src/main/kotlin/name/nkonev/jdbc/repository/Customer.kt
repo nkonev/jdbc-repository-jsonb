@@ -8,8 +8,8 @@ data class Customer(
     @Id
     var id: Long? = null,
     var name: String = "",
-    var personData: PersonData = PersonData(),
-    var sessionData: SessionData = SessionData()
+    var personData: PersonData? = PersonData(),
+    var sessionData: SessionData? = null
 )
 
 data class PersonData(

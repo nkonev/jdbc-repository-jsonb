@@ -21,6 +21,6 @@ create database jdbc with owner jdbc;
 create table customers (
   id bigserial primary key,
   name text not null,
-  person_data jsonb not null,
-  session_data jsonb not null
+  person_data jsonb,
+  session_data jsonb
 );
