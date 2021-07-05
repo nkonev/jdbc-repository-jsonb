@@ -4,9 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.convert.ReadingConverter
 import org.springframework.data.convert.WritingConverter
+import org.springframework.data.jdbc.core.convert.AbstractPostgresJsonReadingConverter
+import org.springframework.data.jdbc.core.convert.AbstractPostgresJsonWritingConverter
 import org.springframework.data.jdbc.repository.config.AbstractJdbcConfiguration
-import org.springframework.data.relational.core.dialect.AbstractPostgresJsonReadingConverter
-import org.springframework.data.relational.core.dialect.AbstractPostgresJsonWritingConverter
 
 @Configuration
 class JsonJdbcConfig(private val objectMapper: ObjectMapper) : AbstractJdbcConfiguration() {
